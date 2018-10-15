@@ -1,0 +1,375 @@
+syntax = "proto2";
+
+//--0
+package king;
+
+
+///////////////////////////////////////登陆及连接维护等协议 begin----------------------------------------**
+///登陆/////////////////////////////////////////////////////////////////////////
+//open_id 为 从sdk那里获取到的sessionid(因历史原因没有改字段名)
+// name 跟 url 如果玩家有授权就发过来，如果没有，就发长度为0的字符串
+//--100
+message C2S_Login{
+	required string open_id = 1;
+	required string name = 2;
+	required string url = 3;
+}
+
+//返回player_id
+//--101
+message S2C_Login{
+	required int32 player_id = 1;
+	required string token = 2;
+}
+
+///错误协议返回，除非特殊的协议，否则所有的协议在错误判断不通过时，都返回这条协议/////////////////////////////////////////////////////////////////////////
+//--102
+message S2C_ErrMsg{
+	required int32 err = 1;
+	required int32 protoId = 2;
+}
+
+///ping协议
+//--103
+message C2S_Ping{
+	required int32 clientTimestamp = 1;
+}
+
+//--104
+message S2C_Ping{
+	required int32 clientTimestamp = 1;
+}
+
+///heart协议
+//--105
+message C2S_Heart{
+}
+
+//--106
+message S2C_Heart{
+	required int32 serverTimestamp = 1;
+}
+
+////当短暂断线的时候，发送此协议 代替登陆协议（因为登陆协议需要走平台，时间比较久）////////
+//--107
+message C2S_ReConnect{
+	required string open_id = 1;
+	required int32 player_id = 2;
+	required string token = 3;
+}
+
+//--108
+message S2C_ReConnect{
+	required int32 player_id = 1;
+}
+///////////////////////////////////////登陆及连接维护等协议 end----------------------------------------**
+
+///////////////////////////////////////战斗相关协议 begin----------------------------------------**
+///////----------------
+//初始化游戏相关信息
+//--200
+message C2S_GetInitGame{
+
+}
+
+message Hero{
+	required int32 id = 1;//武将id(key)
+	required int32 exp = 2;//经验
+	required int32 level = 3;//等级
+	required int32 star = 4;//星阶
+	required int32 armyLv = 5;//状态
+	required int32 armySkill1Lv= 6;//状态
+	required int32 armySkill2Lv= 7;//状态
+	required int32 armySkill3Lv= 8;//状态
+	required int32 chip= 9;//状态
+}
+
+message PlayerInfo{
+	required int32 coin = 1;//游戏币
+	required int32 diamond = 2;//rmb
+	required int32 level = 3;//
+	required int32 wood = 4; //木材
+	required int32 mineral= 5; //铁矿
+	required int32 grain = 6; //粮草
+}
+
+message Building{
+	required int32 farm1Lv = 1;
+	required int32 farm2Lv = 2;
+}
+
+message Army{
+	required int32 armyId = 1;//军队id(key)
+	repeated int32 heroIds = 2;//军队的武将
+}
+
+//--201
+message S2C_GetInitGame{
+	repeated Army armys = 1;
+	required Building building = 2;
+	repeated Hero heros= 3;
+	required PlayerInfo playerInfo = 4;
+}
+///////----------------
+
+///////----------------
+// change to attackplayer
+//--202
+message C2S_AttackNpc{
+	required int32 armyId = 1;
+	required int32 npcId = 2;
+}
+//--203
+message S2C_AttackNpc{
+	required int32 armyId = 1;
+	required int32 npcId = 2;
+}
+
+//--204
+message C2S_AttackNpcReleaseSkill{
+	required int32 heroId = 1;
+	required int32 round = 2;
+	required int32 step = 3;
+}
+
+message TargetBeAction{
+	required int32 pos = 1;
+	repeated int32 values = 2;
+	required int32 type = 3;
+}
+
+message BattleAction{
+	required int32 attackPos = 1; //pos:1~3  is attacker   11~14 defence (20:city)
+	required int32 skillId = 2;//技能id
+	repeated TargetBeAction targetBeActions = 3;//数值(兵力的增减)
+	repeated int32 eventIds = 4;//事件id
+}
+
+
+message BattleEvent{
+	required int32 id = 1; //事件id
+	required int32 pos = 2; //pos:1~3  is attacker   11~14 defence (20:city)
+	required int32 type = 3; //1 dead
+}
+
+//round=0时，为战前回合，此时会释放概率性buf技能
+message Round{
+	repeated BattleAction battleActions = 1;//这个回合的技能
+	repeated BattleEvent battleEvents = 2;//这个回合的事件
+	required int32 round = 3;//回合数
+}
+
+message HeroResult{
+	required int32 pos = 1;//1~3  11~13
+	required int32 heroId = 2;//武将id
+	required int32 troops = 3;//剩余兵力
+	required int32 initTroops = 4;//初始兵力
+}
+
+message BattleResult{
+	required int32 armyId = 1;
+	repeated Round rounds = 2;
+	required int32 result = 3; //1:打胜了 2:被击败了
+	repeated HeroResult heroResults = 4;
+}
+
+//进攻城池的结果
+//--205
+message S2C_AttackNpcReleaseSkill{
+	required BattleResult battleResult = 1;
+	required int32 heroId = 2;
+	required int32 round = 3;
+	required int32 step = 4;
+}
+
+///////////////////////////////////////其它比较零散协议 begin----------------------------------------**
+//签到
+//正常签到返回 S2C_GetSignInfo
+//--300
+message C2S_Sign{
+	required int32 signType = 1; //1 周签到 2: 月签到 详见：enumConst里的 SIGN_TYPE_WEEK 和 SIGN_TYPE_MONTH
+}
+
+message GiftInfo{
+	required int32 giftId = 1; //物品id
+	required int32 giftNum = 2; //物品数量
+}
+//--301
+message S2C_Sign{
+	required int32 signType = 1; ////1 周签到 2: 月签到 详见：enumConst里的 SIGN_TYPE_WEEK 和 SIGN_TYPE_MONTH
+	repeated GiftInfo reward = 2;  // 礼包
+	repeated GiftInfo extReward = 3; //额外礼包
+}
+
+//拉取签到信息
+//--302
+message C2S_GetSignInfo{
+}
+
+//--303
+message S2C_GetSignInfo{
+	required int32 weekSignDay = 1; //最后那次周签的天数 (如果为0则是上一个周期签到的)
+	required bool bWeekSignToday = 2; //今天是否已经签到
+	required int32 monthSignDay = 3;//最后那次月签的天数 (如果为0则是上一个周期签到的)
+	required bool bMonthSignToday = 4;//今天是否已经签到
+	required int32 weekId = 5;//今天是否已经签到
+}
+
+//小红点功能
+//--304
+message C2S_GetRedPoint{
+ }
+
+//--305
+message S2C_GetRedPoint{
+	 required bool bWeekSign = 1; // false:not true:yes
+	 required bool bMonthsign = 2; // false:not true:yes
+}   
+
+//GetRank
+//--306
+message C2S_GetRankInfo{
+
+}
+
+//--307
+message S2C_GetRankInfo{
+	required int32 score = 1;//
+}
+///////////////////////////////////////其它比较零散协议 end----------------------------------------**
+
+///////////////////////////////////////武将协议 begin----------------------------------------**
+///////----------------
+//--401
+message C2S_BuyHero{
+	required int32 shopId = 1;
+	required int32 playerId = 2;
+}
+
+//--402
+message S2C_BuyHero{
+	repeated int32 heroIds = 1;
+	required int32 chip = 2;
+	repeated int32 toChipHeroIds = 3;
+}
+///////----------------
+
+///////----------------
+//--403
+message C2S_EnQueue{
+	required int32 heroId1 = 1;//head pos
+	required int32 heroId2 = 2;//mid pos
+	required int32 heroId3 = 3;//tail pos
+	required int32 armyId = 4;
+}
+
+//--404
+message S2C_EnQueue{
+	required int32 heroId1 = 1;//head pos
+	required int32 heroId2 = 2;//mid pos
+	required int32 heroId3 = 3;//tail pos
+	required int32 armyId = 4;
+}
+///////----------------
+//--405
+message C2S_SetDefArmy{
+	required int32 armyId = 1;
+	required int32 cityId = 2;
+}
+//--406
+message S2C_SetDefArmy{
+	required int32 armyId = 1;
+	required int32 cityId = 2;
+}
+
+
+///////----------------
+//--407
+message C2S_EnQueueSingle{
+	required int32 heroId = 1;
+	required int32 pos = 2;
+	required int32 armyId = 3;
+}
+
+//--408
+message S2C_EnQueueSingle{
+	required int32 heroId = 1;
+	required int32 pos = 2;
+	required int32 armyId = 3;
+}
+
+
+
+//--409
+message C2S_HeroRecruit{
+	required int32 type = 1;
+//游戏币招募1次 :1
+//游戏币招募10次 : 2
+//RMB币招募1次 : 3
+//RMB币招募10次 : 4
+}
+
+//--410
+message S2C_HeroRecruit{
+	repeated int32 heroIds = 1;// 此次抽到的武将id
+	repeated int32 toChipHeroIds = 2;// 此次抽到的武将转变成碎片的武将id
+	required int32 chip = 3;// 此次抽奖获得的碎片
+	required int32 finalChip = 4;// 玩家身上总碎片
+	required int32 tenthTimesLeft = 5;// 逢10特抽次数剩余
+}
+
+//--411
+message C2S_FreeHeroRecruit{
+
+}
+
+//--412
+message S2C_FreeHeroRecruit{
+	required int32 heroId = 1;// 此次抽到的武将id
+	required int32 chip = 2;// 此次抽奖获得的碎片
+	required int32 finalChip = 3;// 玩家身上总碎片
+	required int32 secondsLeft = 4;// 经过改动，改为时间轴，但是，这个变量名没改
+	required int32 tenthTimesLeft = 5;// 逢10特抽次数剩余
+}
+
+
+///////////////////////////////////////武将协议 begin----------------------------------------**
+
+
+////////////////////////////////////////pve_level   begin-------------------------------------------**
+//--701
+message C2S_FightPVE{
+	required int32 levelId = 1;
+	required int32 armyId = 2;
+}
+//--702
+message S2C_FightPVE{
+	repeated Round rounds = 1;
+	required int32 useless = 2;
+}
+
+
+//--703
+message C2S_GetPVELevelId{
+}
+//--704
+message S2C_GetPVELevelId{
+	required int32 levelId = 1;
+}
+
+
+//--705
+message C2S_ContinueFight{
+	required int32 skillId1= 1;
+	required int32 skillId2= 2;
+	required int32 skillId3= 3;
+}
+//--706
+message S2C_ContinueFight{
+	repeated Round rounds = 1;
+	required int32 useless = 2;
+}
+
+
+////////////////////////////////////////pve_level  end -------------------------------------------**
+

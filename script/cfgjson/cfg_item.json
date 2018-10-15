@@ -1,0 +1,4 @@
+[{"ID":10001,"name":"金币","res":"img_item_10001","descrip":"金币的描述","type":1,"quality":1,"AddLim":99999999,"use_Lv":1},
+{"ID":10002,"name":"木材","res":"img_item_10002","descrip":"木材的描述","type":2,"quality":2,"AddLim":99999999,"use_Lv":1},
+{"ID":10003,"name":"黄金","res":"img_item_10002","descrip":"黄金的描述","type":3,"quality":3,"AddLim":99999999,"use_Lv":1},
+{"ID":10004,"name":"粮草","res":"img_item_10002","descrip":"粮草的描述","type":4,"quality":4,"AddLim":99999999,"use_Lv":10}]

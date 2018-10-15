@@ -1,0 +1,215 @@
+package map_db
+
+//import (
+//	"encoding/json"
+//	"errors"
+//	"fmt"
+//	"github.com/kingbuffalo/seelog"
+//	"io/ioutil"
+//	//"math/rand"
+//	//"strconv"
+//	//"buffalo/king/common/gameutil"
+//	//"buffalo/king/common/startcfg"
+//)
+//
+///*
+//此数据不用落地
+//放redis就可以
+//*/
+//
+//type Layers_t struct {
+//	Height uint32  `json:"height"`
+//	Data   []int32 `json:"data"`
+//	Width  uint32  `json:"width"`
+//	X      uint32  `json:"x"`
+//	Y      uint32  `json:"y"`
+//	//	Visible bool    `json:"visible"`
+//	//	Type    string  `json:"type"`
+//	//	Opacity uint32  `json:"opacity"`
+//	//	Name    string  `json:"name"`
+//}
+//
+//type MapV0 struct {
+//	//	Height   uint32     `json:height`
+//	//	Infinite bool       `json:"infinite"`
+//	Layers []Layers_t `json:"layers"`
+//}
+//
+//var mapInstance MapV0
+//var AvailableLocation []uint32 //
+//var LenLocation uint32
+//
+//func InitCfgPoint() {
+//
+//}
+//func init() {
+//	//path := startcfg.GetCfgPath()
+//	//fn := path + "cfg_Monthsign.json"
+//	fn := "/home/gbb/go/src/buffalo/king/script/cfgjson/map_1.json"
+//	seelog.Trace("init config file :", fn)
+//	b, err := ioutil.ReadFile(fn)
+//	if err != nil {
+//		panic(err)
+//	}
+//	if err = json.Unmarshal(b, &mapInstance); err != nil {
+//		panic(err)
+//	}
+//	if len(mapInstance.Layers) < 1 || len(mapInstance.Layers[0].Data) != int(mapInstance.Layers[0].Width*mapInstance.Layers[0].Height) {
+//		panic(errors.New("Data SIZE != Width * Height"))
+//	}
+//
+//	//打印出一些信息来
+//	fmt.Println("size, datasize, width,height :", len(mapInstance.Layers), len(mapInstance.Layers[0].Data), mapInstance.Layers[0].Width, mapInstance.Layers[0].Height)
+//	//根据3*3 的大小来确定点的灰度
+//	for i := 0; i < len(mapInstance.Layers[0].Data); i++ {
+//		if mapInstance.Layers[0].Data[i] > 0 {
+//			pointSet := GetEightPoint(uint32(i), mapInstance.Layers[0].Width, mapInstance.Layers[0].Height)
+//			for j := 0; j < len(pointSet); j++ {
+//				if pointSet[j] >= 0 {
+//					mapInstance.Layers[0].Data[j] = 1061
+//				}
+//			}
+//		}
+//	}
+//	//先判断
+//
+//	//最后再置灰，最后二排和最右二排
+//	for i := int(mapInstance.Layers[0].Width); i <= len(mapInstance.Layers[0].Data); {
+//		mapInstance.Layers[0].Data[i-1] = 1061
+//		mapInstance.Layers[0].Data[i-2] = 1061
+//		i = i + int(mapInstance.Layers[0].Width)
+//	}
+//	for i := int(mapInstance.Layers[0].Height-2)*int(mapInstance.Layers[0].Width) - 1; i < len(mapInstance.Layers[0].Data); i++ {
+//		mapInstance.Layers[0].Data[i] = 1061
+//	}
+//	var j int = 0
+//	for i := 0; i < len(mapInstance.Layers[0].Data); i++ {
+//		if mapInstance.Layers[0].Data[i] == 0 {
+//			AvailableLocation[j] = uint32(i)
+//			j = j + 1
+//		}
+//	}
+//
+//	LenLocation = uint32(len(AvailableLocation))
+//	if LenLocation <= 7 {
+//		panic(errors.New("AvailableLocation is too short"))
+//	}
+//	//var AvailableLocation []uint32
+//
+//}
+//func GetEightPoint(location uint32, width uint32, height uint32) [8]int {
+//	var Point [8]int
+//	//置灰 左上角 8个空格， 左上角的算法分别是 (x-2, y-2) (x-1, y-2) (x, y-2) (x-2,y-1)(x-1,y-1)( x,y-1) (x-2,y) (x-1,y) 对于一维数组来说，这九个角分别应该是
+//	//还要看该位置是否处于第一列或者第二列，如果处于,就不用折腾了，
+//	//对于是否处于第一行或者第二行，著需要减完以后，进行>= 的操作就可以了
+//	if location%width == 0 {
+//		Point[0] = -1
+//		Point[1] = -1
+//		Point[3] = -1
+//		Point[4] = -1
+//		Point[6] = -1
+//		Point[7] = -1
+//		//那么就不需要
+//	} else if location%width == 1 {
+//		Point[0] = -1
+//		Point[3] = -1
+//		Point[6] = -1
+//		Point[1] = int(location - 2*width - 1)
+//		Point[4] = int(location - width - 0)
+//		Point[7] = int(location - 1)
+//	} else {
+//		Point[0] = int(location - 2*width - 2)
+//		Point[3] = int(location - width - 2)
+//		Point[6] = int(location - 2)
+//		Point[1] = int(location - 2*width - 1)
+//		Point[4] = int(location - width - 1)
+//		Point[7] = int(location - 1)
+//	}
+//	Point[2] = int(location - 2*width)
+//	Point[5] = int(location - width)
+//	return Point
+//	//	(x-1,y) ===> i-1 [] //[7]
+//	//	(x-2, y) ===> i-2 //[6]
+//	//	( x,y-1 )===> i-1*width //[5]
+//	//	(x-1,y-1)====> i-1*width -1 //[4]
+//	//	(x-2,y-1)====> i-1*width -2  //[3]
+//	//	(x, y-2) ==> i-2*width    //[2]
+//	//	(x-1, y-2) ==> i-2*width-1 //[1]
+//	//	(x-2, y-2) ==> i-2*width-2 //[0]
+//
+//}
+//
+////产生城池需要6个位置信息
+////只有在最后的时候，才把这个位置转换为坐标，其他全部是一维数组进行
+//type CityPoint struct {
+//	X uint32 `json:"x"`
+//	Y uint32 `json:"y"`
+//}
+//
+////先不对自己做中间位置的处理 ,可以对产生的点进行筛选
+////func GenerateMyCity() CityPoint {
+////	//暂时让mycity 处于 1/3-- 2/3处
+////	start_point := int(LenLocation / 3)
+////	lct := rand.Intn(start_point) + start_point
+////	return location2CityPoint(AvailableLocation[lct])
+////}
+//
+////func Generate(num uint32) []CityPoint {
+////
+////}
+//func location2CityPoint(location uint32) CityPoint {
+//	//把这个位置转换为 点
+//	var cityPoint CityPoint
+//	cityPoint.X = location / GetWidth()
+//	cityPoint.Y = location % GetHeight()
+//	return cityPoint
+//
+//}
+//
+////如果真的存在产生 失败的情况，就返回（0，0）
+////data 应该以引用进入，下面要循环使用这个值，但是另一个呢？每次返回嘛？也以& 进入好了，最后更新这个值好了，不然数组的大小不好缩小，会[C]缠身
+////这种办法比较笨，可以考虑固话几个点，以确认100% 可以产生那么多个点，但是这个固话的过程，要怎么做呢? 尽可能多的产生，就是尽可能选用左上角的数据作为最后的答案，但是这样是否又问题呢？
+////先这么做吧 后期再想更好的方案，效率方面呢？ 会不会有问题？没有网络开销应该无所谓吧~
+////func subGenerateCity(Matrix []uint32, Data []uint32) ([]uint32, CityPoint, error) {
+////	var point CityPoint
+////	len := len(Matrix)
+////	lct := rand.Intn(len)
+////}
+//
+////var AvailableLocation []uint32 //
+////
+////CityPoint[0] = GenerateMyCity()
+//
+////uint32 mycity
+////先产生自己的位置 (希望分布在中间部分 也就是 1/3- 2/3 部分)
+//// 随机到一个位置作为自己的，放在返回的第一个位置
+//
+////	假定所有的城池都是 3*3 的
+////	产生随机 多个城池 如何随机产生呢?
+////func GenerateCity(neighbour uint32) []CityPoint {
+////	var CitySet []CityPoint
+////	//先进行赋值，然后对这两个进行改变
+////	Date := GetData()
+////	RestIndex := AvailableLocation
+////	for i := 0; i < neighbour; i++ {
+////		var Layout []uint32
+////		Point, err := subGenerateCity(&RestIndex, &Date)
+////		if err != nil {
+////			seelog.Trace("No new points can be generated")
+////			break
+////		}
+////		CitySet[i] = Point
+////	}
+////	return CitySet
+////
+////}
+////
+//func GetWidth() uint32 {
+//	return mapInstance.Layers[0].Width
+//}
+//func GetHeight() uint32 {
+//	return mapInstance.Layers[0].Height
+//}
+//func GetData() []int32 {
+//	return mapInstance.Layers[0].Data
+//}

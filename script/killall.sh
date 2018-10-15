@@ -1,0 +1,2 @@
+killall kinggw
+killall kingcmd

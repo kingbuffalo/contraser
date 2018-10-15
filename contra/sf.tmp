@@ -1,0 +1,21 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+comment	serpent.lua	/^  local function comment(s,l) return comm and (l or 0) < comm and ' --[['..select(2, pcall(tostring, s))..']]' or '' end$/;"	f
+deserialize	serpent.lua	/^local function deserialize(data, opts)$/;"	f
+gensym	serpent.lua	/^  local function gensym(val) return '_'..(tostring(tostring(val)):gsub("[^%w]",""):gsub("(%d%w+)",$/;"	f
+globerr	serpent.lua	/^  local function globerr(s,l) return globals[s] and globals[s]..comment(s,l) or not fatal$/;"	f
+isArrayTable	serpent.lua	/^local function isArrayTable(t)$/;"	f
+merge	serpent.lua	/^local function merge(a, b) if b then for k,v in pairs(b) do a[k] = v end end; return a; end$/;"	f
+padnum	serpent.lua	/^    local function padnum(d) return ("%0"..tostring(maxn).."d"):format(tonumber(d)) end$/;"	f
+s	serpent.lua	/^local function s(t, opts)$/;"	f
+safename	serpent.lua	/^  local function safename(path, name) -- generates foo.bar, foo[3], or foo['b a r']$/;"	f
+safestr	serpent.lua	/^  local function safestr(s) return type(s) == "number" and tostring(huge and snum[tostring(s)] or numformat:format(s))$/;"	f
+ser_table	serpent.lua	/^	local function ser_table(tbl)$/;"	f
+ser_table	serpent.lua	/^	local function ser_table(tbl,parent)$/;"	f
+strNumKeyDump	serpent.lua	/^local function strNumKeyDump(t)$/;"	f
+strNumKeySimpleDump	serpent.lua	/^local function strNumKeySimpleDump(t)$/;"	f
+val2str	serpent.lua	/^  local function val2str(t, name, indent, insref, path, plainindex, level)$/;"	f

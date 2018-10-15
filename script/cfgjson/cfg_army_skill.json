@@ -1,0 +1,12 @@
+[{"id":1,"army_type":1,"value_atr":6,"all_target":0,"oppo_cavalry":0,"oppo_pikeman":0,"oppo_shields":1,"oppo_archers":1,"name":"迂回","des":"迂回  当目标为3时，加攻击","open_level":1},
+{"id":2,"army_type":1,"value_atr":7,"all_target":0,"oppo_cavalry":0,"oppo_pikeman":0,"oppo_shields":1,"oppo_archers":1,"name":"灵活","des":"灵活  当攻击方为3时，加防","open_level":30},
+{"id":3,"army_type":1,"value_atr":11,"all_target":1,"oppo_cavalry":0,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":0,"name":"神速","des":"英勇  加攻击力","open_level":60},
+{"id":4,"army_type":2,"value_atr":6,"all_target":0,"oppo_cavalry":1,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":1,"name":"枪阵","des":"枪阵  当目标为1时，加攻击","open_level":1},
+{"id":5,"army_type":2,"value_atr":7,"all_target":0,"oppo_cavalry":1,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":1,"name":"逼退","des":"逼退  当攻击方为1时，加防","open_level":30},
+{"id":6,"army_type":2,"value_atr":6,"all_target":1,"oppo_cavalry":0,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":0,"name":"英勇","des":"英勇","open_level":60},
+{"id":7,"army_type":3,"value_atr":6,"all_target":0,"oppo_cavalry":0,"oppo_pikeman":1,"oppo_shields":0,"oppo_archers":1,"name":"盾击","des":"盾击  当目标为2时，加攻","open_level":1},
+{"id":8,"army_type":3,"value_atr":7,"all_target":1,"oppo_cavalry":0,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":0,"name":"盾阵","des":"盾阵  所有兵种攻击时，加防","open_level":30},
+{"id":9,"army_type":3,"value_atr":7,"all_target":1,"oppo_cavalry":0,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":0,"name":"铁壁","des":"铁壁  减伤","open_level":90},
+{"id":10,"army_type":4,"value_atr":6,"all_target":1,"oppo_cavalry":0,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":0,"name":"射箭","des":"射箭  在后边，可以射箭，造成多少伤害","open_level":1},
+{"id":11,"army_type":4,"value_atr":6,"all_target":0,"oppo_cavalry":0,"oppo_pikeman":1,"oppo_shields":0,"oppo_archers":1,"name":"箭雨","des":"箭雨  这个干啥？","open_level":30},
+{"id":12,"army_type":4,"value_atr":6,"all_target":0,"oppo_cavalry":1,"oppo_pikeman":0,"oppo_shields":0,"oppo_archers":1,"name":"精准","des":"精准  攻击无甲兵时，增加攻击力","open_level":60}]

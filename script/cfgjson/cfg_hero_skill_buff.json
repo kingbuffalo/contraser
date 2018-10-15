@@ -1,0 +1,11 @@
+[{"id":1,"buff_type":1,"buff_value":33,"last_num":0,"effect_atr":10,"name":"empty","des":"箭阵bufid"},
+{"id":2,"buff_type":1,"buff_value":100,"last_num":0,"effect_atr":1,"name":"empty","des":"孤勇bufId"},
+{"id":3,"buff_type":2,"buff_value":-20,"last_num":0,"effect_atr":1,"name":"empty","des":"咆哮武力减少bufId"},
+{"id":4,"buff_type":2,"buff_value":-10,"last_num":0,"effect_atr":1,"name":"empty","des":"强袭减少攻击的bufid"},
+{"id":5,"buff_type":1,"buff_value":20,"last_num":0,"effect_atr":0,"name":"empty","des":"强袭速度增加的bufId"},
+{"id":6,"buff_type":1,"buff_value":10,"last_num":0,"effect_atr":0,"name":"empty","des":"速度增加的bufId"},
+{"id":7,"buff_type":1,"buff_value":30,"last_num":0,"effect_atr":1,"name":"empty","des":"增加武力的bufid"},
+{"id":8,"buff_type":2,"buff_value":-30,"last_num":0,"effect_atr":1,"name":"empty","des":"减少武力的bufid"},
+{"id":9,"buff_type":1,"buff_value":20,"last_num":0,"effect_atr":1,"name":"empty","des":"增加武力的bufid"},
+{"id":10,"buff_type":1,"buff_value":-10,"last_num":0,"effect_atr":7,"name":"empty","des":"减少防的bufid"},
+{"id":11,"buff_type":1,"buff_value":10,"last_num":0,"effect_atr":1,"name":"empty","des":"增加武力的bufid"}]

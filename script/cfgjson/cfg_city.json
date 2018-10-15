@@ -1,0 +1,9 @@
+[{"Id":101,"townLv":1,"model_ID":"1","weigh":1,"high":1},
+{"Id":102,"townLv":2,"model_ID":"1","weigh":2,"high":2},
+{"Id":103,"townLv":3,"model_ID":"1","weigh":3,"high":3},
+{"Id":201,"townLv":1,"model_ID":"1","weigh":1,"high":1},
+{"Id":202,"townLv":2,"model_ID":"1","weigh":2,"high":2},
+{"Id":203,"townLv":3,"model_ID":"1","weigh":3,"high":3},
+{"Id":301,"townLv":1,"model_ID":"1","weigh":1,"high":1},
+{"Id":302,"townLv":2,"model_ID":"1","weigh":2,"high":2},
+{"Id":303,"townLv":3,"model_ID":"1","weigh":3,"high":3}]

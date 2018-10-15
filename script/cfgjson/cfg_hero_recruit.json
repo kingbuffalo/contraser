@@ -1,0 +1,4 @@
+[{"type":1,"money_type":1,"money_num":500,"times":1,"hero_recruit_pool_id":1,"tenth_hero_recruit_pool_id":0},
+{"type":2,"money_type":1,"money_num":4500,"times":10,"hero_recruit_pool_id":1,"tenth_hero_recruit_pool_id":0},
+{"type":3,"money_type":0,"money_num":20,"times":1,"hero_recruit_pool_id":2,"tenth_hero_recruit_pool_id":3},
+{"type":4,"money_type":0,"money_num":180,"times":10,"hero_recruit_pool_id":2,"tenth_hero_recruit_pool_id":3}]
